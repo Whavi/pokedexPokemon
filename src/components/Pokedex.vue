@@ -1,48 +1,125 @@
 <script setup>
+import {onMounted, ref} from "vue";
+
+const pokemon = ref([]);
+const pokemonName = ref("");
+const pokemonId = ref("");
+const pokemonImg = ref("");
+const pokemonType =ref ("");
+const pokemonDescription = ref("");
+const pokemonWeight = ref("");
+const pokemonHeight = ref("");
+const pokemonFicheId = ref("");
+
+
+
+
+const getInfoPokemon = async () => {
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`);
+    const data = await response.json();
+    pokemon.value = [...data.stats];
+    pokemonName.value = data.name;
+    pokemonImg.value = data.sprites.front_default;
+    pokemonType.value = data.types.map(type => type.type.name).join(", ");
+    pokemonDescription.value = data.description;
+    pokemonWeight.value = data.weight;
+    pokemonHeight.value = data.height;
+    pokemonFicheId.value = data.id;
+    console.log(data.name);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données du Pokémon:", error);
+  }
+};
+
+const changePokemon = (offset) => {
+  pokemonId.value += offset;
+  if (pokemonId.value < 1) {
+    pokemonId.value = 1;
+  }
+  getInfoPokemon();
+};
+
+const onNext = () => {
+  changePokemon(1);
+};
+
+const onPrevious = () => {
+  changePokemon(-1);
+};
+
+
+
+const onEnter = () => {
+  getInfoPokemon(); // Appeler la fonction d'ajout lorsque "Enter" est pressé
+};
+
+onMounted(getInfoPokemon);
+
+
+
+
+
 </script>
 
 <template>
-  <div class="pokedex-img">
-    <img src="/pokedex.jpg">
+  <div class="pokedex">
+    <div class="pokedex-img">
+      <img src="/pokedex.jpg" alt="Pokedex">
+    </div>
+
+    <div class="pokedex-id">
+      <p>ID :</p>
+      <input v-model="pokemonId" @keyup.enter="onEnter" class ="champ-pokemon-id" type="text" name="pokemon-id" placeholder="ID pokemon" pattern="[0-9]{4}" maxlength="4">
+    </div>
+
+    <div class="pokedex-name">
+      <p>Nom :</p>
+      <input readonly v-model="pokemonName" class="champ-pokemon-name" type="text" name="pokemon-name" placeholder="Nom du pokémon">
+    </div>
+
+    <div class="pokedex-desc">
+      <div class="imgPokemon">
+      <img :src="pokemonImg" :alt="pokemonName">
+      </div>
+      <li v-for="poke in pokemon">
+        <div>
+          <p>
+            {{poke.stat.name}} : {{poke.base_stat}} et {{pokemonType}}
+          </p>
+          <p>
+           comme descriptions : {{pokemonDescription}}
+            poids  : {{pokemonWeight}} kg
+            taille : {{pokemonHeight}} m
+            ID : {{pokemonFicheId}}
+          </p>
+        </div>
+      </li>
+    </div>
+
+    <div class="buttons">
+      <div class="btn-top-bot">
+        <button class="btn-top">  </button>
+        <button class="btn-bot"> </button>
+      </div>
+
+      <div class="btn-left-right">
+        <button class="btn-left" @click="onPrevious"> </button>
+          <button class="btn-right" @click="onNext">  </button>
+      </div>
+
+      <div class="submit">
+        <button class="pokemon-submit" @click="onEnter" value="Rechercher" ></button>
+      </div>
+
+      <div class="return">
+        <button class="pokemon-return" value="Retour">  </button>
+      </div>
+    </div>
+
+    <div class="bgColorDesc"></div>
+
   </div>
-
-
-  <div class="pokedex-id">
-    <p> ID :</p>
-    <input class="champ-pokemon-id" type="text" name="pokemon-id" placeholder="ID pokemon" pattern="[0-9]{4}" maxlength="4">
-  </div>
-
-  <div class="pokedex-name">
-    <p>Name : </p>
-    <input readonly class="champ-pokemon-name" type="text" name="pokemon-name" placeholder="Nom du pokémon" >
-  </div>
-
-  <div class="pokedex-desc">
-    <p> Description :</p>
-    <input class="champ-pokemon-desc" type="text" name="pokemon-desc">
-  </div>
-
-  <div class="btn-top-bot">
-    <input class="btn-top" type="button">
-    <input class="btn-bot" type="button">
-  </div>
-
-  <div class="btn-left-right">
-    <input class="btn-left" type="button" >
-    <input class="btn-right" type="button" >
-  </div>
-
-  <div class="submit">
-    <input class="pokemon-submit" type="submit" value=" ">
-  </div>
-
-  <div class="return">
-    <input class="pokemon-return" type="submit" value=" ">
-  </div>
-
-
-
-
 </template>
 
 <style scoped>
@@ -60,8 +137,8 @@ img{
 
 .pokedex-id{
   position: absolute;
-  top: 366.5px;
-  left: 545px;
+  top: 364.5px;
+  left: 564px;
   display: flex;
 }
 .pokedex-id p {
@@ -69,10 +146,19 @@ img{
   font-size: 6px;
   font-weight: bold;
 }
+.bgColorDesc{
+  position: absolute;
+  top: 119.2px;
+  left: 361.7px;
+  background-color: #8DC641;
+  width: 228px;
+  height: 222px;
+
+}
 
 .pokedex-name{
   position: absolute;
-  top: 366.5px;
+  top: 364.5px;
   left: 365px;
   display: flex;
 }
@@ -84,13 +170,32 @@ img{
 
 .pokedex-desc{
   position: absolute;
-  top: 390px;
-  left: 388.5px;
+  top: 118px;
+  left: 361px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 200px;
+  width: 228px;
   align-items: center;
+  z-index: 1;
+}
+
+.pokedex-desc li{
+  text-decoration: none;
+  list-style: none;
+}
+.pokedex-desc li div{
+  border: red solid 1px;
+}
+.imgPokemon{
+  position: absolute;
+  top: 270px;
+  left: 58px;
+  height: 200px;
+  width: 200px;
+}
+.imgPokemon img{
+  border: black 3px solid;
 }
 
 .pokedex-desc p{
@@ -102,7 +207,7 @@ img{
 
 .champ-pokemon-id{
   height: 10px;
-  width: 43px;
+  width: 20px;
   font-size: 7px;
   border: none;
   background-color: #8DC641;
@@ -130,7 +235,7 @@ img{
 
 .btn-top-bot{
   position: absolute;
-  inset: 395px 200px 50px 381px;
+  inset: 390px 200px 50px 377px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -145,7 +250,7 @@ img{
 
 .btn-left-right{
   position: absolute;
-  inset: 412px 200px 50px 365px;
+  inset: 408px 200px 50px 360px;
   display: flex;
   justify-content: space-between;
   width: 50px;
@@ -159,13 +264,13 @@ img{
 
 .return{
   position: absolute;
-  top: 388px;
-  left: 563px;
+  top: 386px;
+  left: 558px;
 }
 .submit{
   position: absolute;
-  top: 415px;
-  left: 575px;
+  top: 413px;
+  left: 570px;
 }
 .pokemon-submit{
   border-radius: 100%;
