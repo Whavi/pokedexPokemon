@@ -32,24 +32,36 @@ const getInfoPokemon = async () => {
   }
 };
 
-const changePokemon = (offset) => {
-  pokemonId.value += offset;
-  if (pokemonId.value < 1) {
-    pokemonId.value = 1;
-  }
-  getInfoPokemon();
+const changePokemonUp = (offset) => {
+    pokemonId.value += offset;
+    getInfoPokemon();
 };
 
-const onNext = () => {
-  changePokemon(1);
+const resetPokemon = () => {
+    pokemonId.value = 0;
+    getInfoPokemon();
 };
+
+const changePokemonDown = (offset) => {
+    pokemonId.value -= offset;
+    getInfoPokemon();
+};
+const onNext = () => {
+  changePokemonUp(1);
+};
+
+const onNextUP = () => {
+    changePokemonUp(10);
+};
+
 
 const onPrevious = () => {
-  changePokemon(-1);
+  changePokemonDown(1);
 };
 
-
-
+const onPreviousDOWN = () => {
+    changePokemonDown(10);
+};
 const onEnter = () => {
   getInfoPokemon(); // Appeler la fonction d'ajout lorsque "Enter" est pressé
 };
@@ -99,8 +111,8 @@ onMounted(getInfoPokemon);
 
     <div class="buttons">
       <div class="btn-top-bot">
-        <button class="btn-top">  </button>
-        <button class="btn-bot"> </button>
+        <button class="btn-top" @click="onNextUP">  </button>
+        <button class="btn-bot" @click="onPreviousDOWN"> </button>
       </div>
 
       <div class="btn-left-right">
@@ -113,7 +125,7 @@ onMounted(getInfoPokemon);
       </div>
 
       <div class="return">
-        <button class="pokemon-return" value="Retour">  </button>
+        <button class="pokemon-return" @click="resetPokemon" value="Retour">  </button>
       </div>
     </div>
 
@@ -123,13 +135,13 @@ onMounted(getInfoPokemon);
 </template>
 
 <style scoped>
-
 .pokedex-img{
    display: flex;
    justify-content: center;
    width: 100%;
    padding-top: 1rem;
  }
+
 img{
   border-radius: 11px;
   width: 30%;
@@ -141,11 +153,13 @@ img{
   left: 564px;
   display: flex;
 }
+
 .pokedex-id p {
   color: black;
   font-size: 6px;
   font-weight: bold;
 }
+
 .bgColorDesc{
   position: absolute;
   top: 119.2px;
@@ -153,7 +167,6 @@ img{
   background-color: #8DC641;
   width: 228px;
   height: 222px;
-
 }
 
 .pokedex-name{
@@ -162,6 +175,7 @@ img{
   left: 365px;
   display: flex;
 }
+
 .pokedex-name p {
   color: black;
   font-size: 6px;
@@ -184,9 +198,11 @@ img{
   text-decoration: none;
   list-style: none;
 }
+
 .pokedex-desc li div{
   border: red solid 1px;
 }
+
 .imgPokemon{
   position: absolute;
   top: 270px;
@@ -194,16 +210,12 @@ img{
   height: 200px;
   width: 200px;
 }
-.imgPokemon img{
-  border: black 3px solid;
-}
 
 .pokedex-desc p{
   color: black;
   font-size: 6px;
   font-weight: bold;
 }
-
 
 .champ-pokemon-id{
   height: 10px;
@@ -215,13 +227,13 @@ img{
   pointer-events: auto;
 }
 
-.champ-pokemon-name, .champ-pokemon-desc{
-  pointer-events: none;
-  font-size: 7px;
-  border: none;
-  background-color: #8DC641;
-
+.champ-pokemon-name, .champ-pokemon-desc {
+    pointer-events: none;
+    font-size: 7px;
+    border: none;
+    background-color: #8DC641;
 }
+
 .champ-pokemon-name{
   height: 10px;
   width: 80px;
@@ -232,7 +244,6 @@ img{
   width: 110px;
 }
 
-
 .btn-top-bot{
   position: absolute;
   inset: 390px 200px 50px 377px;
@@ -240,8 +251,8 @@ img{
   flex-direction: column;
   justify-content: space-between;
   height: 50px;
-
 }
+
 .btn-top, .btn-bot{
   height: 18px;
   width: 10px;
@@ -254,8 +265,8 @@ img{
   display: flex;
   justify-content: space-between;
   width: 50px;
-
 }
+
 .btn-left, .btn-right{
   height: 15px;
   width: 18px;
@@ -267,11 +278,13 @@ img{
   top: 386px;
   left: 558px;
 }
+
 .submit{
   position: absolute;
   top: 413px;
   left: 570px;
 }
+
 .pokemon-submit{
   border-radius: 100%;
   height: 25px;
@@ -284,7 +297,5 @@ img{
   height: 20px;
   width: 20px;
   background: transparent;
-
 }
-
 </style>
