@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed} from "vue";
 
 const pokemon = ref([]);
 const pokemonName = ref("");
@@ -10,8 +10,8 @@ const pokemonDescription = ref("");
 const pokemonWeight = ref("");
 const pokemonHeight = ref("");
 const pokemonFicheId = ref("");
-
-
+const pokemonAbilities = ref("");
+const computedPokemonId = computed(() => pokemonId);
 
 
 const getInfoPokemon = async () => {
@@ -21,11 +21,22 @@ const getInfoPokemon = async () => {
     pokemon.value = [...data.stats];
     pokemonName.value = data.name;
     pokemonImg.value = data.sprites.front_default;
+    pokemonAbilities.value = data.abilities.map(ability => ability.ability.name);
     pokemonType.value = data.types.map(type => type.type.name).join(", ");
     pokemonDescription.value = data.description;
     pokemonWeight.value = data.weight;
     pokemonHeight.value = data.height;
     pokemonFicheId.value = data.id;
+
+    const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId.value}/`);
+    const speciesData = await speciesResponse.json();
+
+// Trouver la première entrée en anglais (ou une autre langue de votre choix)
+    const englishEntry = speciesData.flavor_text_entries.find(entry => entry.language.name === "fr");
+
+// Récupérer la description
+    pokemonDescription.value = englishEntry ? englishEntry.flavor_text : "Description non disponible";
+
     console.log(data.name);
   } catch (error) {
     console.error("Erreur lors de la récupération des données du Pokémon:", error);
@@ -77,7 +88,7 @@ onMounted(getInfoPokemon);
 <template>
   <div class="pokedex">
     <div class="pokedex-img">
-      <img src="/pokedex.jpg" alt="Pokedex">
+      <img src="/pokedex_1.png" alt="Pokedex">
     </div>
 
     <div class="pokedex-id">
@@ -94,19 +105,50 @@ onMounted(getInfoPokemon);
       <div class="imgPokemon">
       <img :src="pokemonImg" :alt="pokemonName">
       </div>
-      <li v-for="poke in pokemon">
-        <div>
-          <p>
-            {{poke.stat.name}} : {{poke.base_stat}} et {{pokemonType}}
-          </p>
-          <p>
-           comme descriptions : {{pokemonDescription}}
-            poids  : {{pokemonWeight}} kg
-            taille : {{pokemonHeight}} m
-            ID : {{pokemonFicheId}}
-          </p>
+      <div class="pokeName">
+        <p>
+          Name : {{pokemonName}}
+        </p>
+      </div>
+      <div class="pokeId">
+        <p>
+          ID : {{pokemonFicheId}}
+        </p>
+      </div>
+
+      <div class="pokeTypes">
+        <h6>Types :</h6>
+        <p> {{pokemonType}} </p>
+      </div>
+      <div class="pokeHeight">
+        <p>
+          Taille : {{pokemonHeight}} m
+        </p>
         </div>
-      </li>
+        <div class="pokeWeight">
+          <p>
+            Poids : {{pokemonWeight}} kg
+          </p>
+      </div>
+      <div class="pokeDesc">
+        <h6>Description : </h6>
+        <p>
+          {{pokemonDescription}}
+        </p>
+      </div>
+      <div class="pokeAbi">
+        <p>
+          Abilité : {{pokemonAbilities}}
+        </p>
+      </div>
+      <div class="pokeStats">
+        <li v-for="poke in pokemon">
+          <p>
+            {{poke.stat.name}} : {{poke.base_stat}}
+          </p>
+        </li>
+      </div>
+
     </div>
 
     <div class="buttons">
@@ -149,8 +191,8 @@ img{
 
 .pokedex-id{
   position: absolute;
-  top: 364.5px;
-  left: 564px;
+  top: 364px;
+  left: 570px;
   display: flex;
 }
 
@@ -160,18 +202,9 @@ img{
   font-weight: bold;
 }
 
-.bgColorDesc{
-  position: absolute;
-  top: 119.2px;
-  left: 361.7px;
-  background-color: #8DC641;
-  width: 228px;
-  height: 222px;
-}
-
 .pokedex-name{
   position: absolute;
-  top: 364.5px;
+  top: 364px;
   left: 365px;
   display: flex;
 }
@@ -203,12 +236,18 @@ img{
   border: red solid 1px;
 }
 
+.pokeStats{
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+}
+
 .imgPokemon{
   position: absolute;
-  top: 270px;
-  left: 58px;
-  height: 200px;
-  width: 200px;
+  top: 60px;
+  left: 25px;
+  width: 300px;
 }
 
 .pokedex-desc p{
@@ -227,26 +266,18 @@ img{
   pointer-events: auto;
 }
 
-.champ-pokemon-name, .champ-pokemon-desc {
-    pointer-events: none;
-    font-size: 7px;
-    border: none;
-    background-color: #8DC641;
-}
-
 .champ-pokemon-name{
+  pointer-events: none;
+  font-size: 7px;
+  border: none;
+  background-color: #8DC641;
   height: 10px;
   width: 80px;
 }
 
-.champ-pokemon-desc{
-  height: 40px;
-  width: 110px;
-}
-
 .btn-top-bot{
   position: absolute;
-  inset: 390px 200px 50px 377px;
+  inset: 390px 200px 50px 382px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -261,7 +292,7 @@ img{
 
 .btn-left-right{
   position: absolute;
-  inset: 408px 200px 50px 360px;
+  inset: 408px 200px 50px 365px;
   display: flex;
   justify-content: space-between;
   width: 50px;
@@ -276,13 +307,13 @@ img{
 .return{
   position: absolute;
   top: 386px;
-  left: 558px;
+  left: 563px;
 }
 
 .submit{
   position: absolute;
   top: 413px;
-  left: 570px;
+  left: 575px;
 }
 
 .pokemon-submit{
@@ -298,4 +329,61 @@ img{
   width: 20px;
   background: transparent;
 }
+
+.pokeName{
+  position: absolute;
+  top: 9px;
+  left: 15px;
+}
+.pokeId{
+  position: absolute;
+  top: 18px;
+  left: 15px;
+}
+
+.pokeTypes{
+  position: absolute;
+  top: 185px;
+  left: 32px;
+}
+.pokeTypes h6{
+  color: black;
+  text-decoration: underline;
+  font-size: 8px;
+
+}
+.pokeTypes p{
+  color: black;
+  font-size: 9px;
+}
+
+.pokeDesc{
+  position: absolute;
+  top: 160px;
+  left: 129px;
+}
+.pokeDesc h6 {
+  color: black;
+  text-decoration: underline;
+  font-size: 8px;
+}
+
+.pokeWeight{
+  position: absolute;
+  top : 8px;
+  left: 123px;
+}
+
+.pokeHeight{
+  position: absolute;
+  top : 15px;
+  left: 118px;
+}
+
+.pokeAbi{
+  position: absolute;
+  top: 23px;
+  left: 110px;
+}
+
 </style>
