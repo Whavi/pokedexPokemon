@@ -107,7 +107,7 @@ onMounted(getInfoPokemon);
       </div>
       <div class="pokeName">
         <p>
-          Name : {{pokemonName}}
+          Nom : {{pokemonName}}
         </p>
       </div>
       <div class="pokeId">
@@ -141,14 +141,16 @@ onMounted(getInfoPokemon);
           Abilité : {{pokemonAbilities}}
         </p>
       </div>
+      <div class="stats">
       <div class="pokeStats">
+        <h6> Statistiques :</h6>
         <li v-for="poke in pokemon">
           <p>
             {{poke.stat.name}} : {{poke.base_stat}}
           </p>
         </li>
       </div>
-
+      </div>
     </div>
 
     <div class="buttons">
@@ -227,20 +229,31 @@ img{
   z-index: 1;
 }
 
-.pokedex-desc li{
-  text-decoration: none;
-  list-style: none;
+.stats{
+  position: absolute;
+  top : 63px;
+  left : 125px;
 }
-
-.pokedex-desc li div{
-  border: red solid 1px;
+.pokeStats h6{
+  position: absolute;
+  color: black;
+  text-decoration: underline;
+  font-size: 8px;
+  top: -18px;
+  left: 10px;
 }
 
 .pokeStats{
+  display: flex;
+  flex-direction: column;
   width: 100px;
+  text-decoration: none;
+  list-style: none;
+}
+.pokeStats li{
   display: flex;
   justify-content: flex-end;
-  align-content: center;
+  padding-bottom: 4px;
 }
 
 .imgPokemon{
@@ -376,14 +389,14 @@ img{
 
 .pokeHeight{
   position: absolute;
-  top : 15px;
-  left: 118px;
+  top : 8px;
+  left: 190px;
 }
 
 .pokeAbi{
   position: absolute;
-  top: 23px;
-  left: 110px;
+  top: 17px;
+  left: 115px;
 }
 
 </style>
