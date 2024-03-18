@@ -104,7 +104,7 @@ body {
   position: relative;
   width: 100%;
   padding: 30px 20px;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
   border-radius: 10px;
 }
 #card img {
@@ -162,5 +162,10 @@ body {
   margin: 30px auto;
   border: none;
   border-radius: 5px;
+}
+#btn:hover{
+  background-color: #8dc641;
+  transition: 0.8s;
+  color: black;
 }
 </style>

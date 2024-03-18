@@ -122,13 +122,13 @@ onMounted(fetchPokemonData);
 
     <div class="buttons">
       <div class="btn-top-bot">
-        <button class="btn-top" @click="onNextUp" @keyup.up="onUp">  </button>
-        <button class="btn-bot" @click="onPreviousDown" @keyup.up="onDown"  > </button>
+        <button class="btn-top" @click="onNextUp" @keyup.up="onBigUp">  </button>
+        <button class="btn-bot" @click="onPreviousDown" @keyup.down="onBigDown"> </button>
       </div>
 
       <div class="btn-left-right">
-        <button class="btn-left" @click="onPrevious" @keyup.up="onBigDown"> </button>
-          <button class="btn-right" @click="onNext" @keyup.up="onBigUp">  </button>
+        <button class="btn-left" @click="onPrevious" @keyup.left="onDown"> </button>
+        <button class="btn-right" @click="onNext" @keyup.right="onUp">  </button>
       </div>
 
       <div class="submit">
@@ -161,7 +161,6 @@ img {
 .pokedex-name {
   position: absolute;
   top: 364px;
-
   display: flex;
 }
 
@@ -282,7 +281,7 @@ img {
 
 .btn-left-right {
   position: absolute;
-  inset: 780px 200px 50px 773px;
+  inset: 780px 200px 140px 773px;
   display: flex;
   justify-content: space-between;
   width: 90px;
