@@ -1,19 +1,17 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from "@/components/HelloWorld.vue";
-import TheWelcome from "@/components/TheWelcome.vue";
+import GeneratorPokemon from "@/components/GeneratorPokemon.vue";
 
 </script>
 
 <template>
-    <div>
+    <header>
       <nav>
         <RouterLink to="/">Accueil</RouterLink>
-        <RouterLink to="/pokedex">Pokédex</RouterLink>
-        <RouterLink to="/pokedex">ZOOM de Chrome = 200%</RouterLink>
+        <RouterLink to="/pokedex">Pokédex </RouterLink>
+        <RouterLink to="/GeneratorPokemon">Generateur de pokemon</RouterLink>
       </nav>
-    </div>
-  
+    </header>
 <RouterView></RouterView>
 
 </template>
@@ -22,10 +20,13 @@ import TheWelcome from "@/components/TheWelcome.vue";
 
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top : 10px;
+  left: 110px;
+  width: 90%;
+  font-size: 10px;
 }
 
 nav a.router-link-exact-active {
@@ -38,6 +39,7 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   display: inline-block;
+  font-size: 25px;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
 }
