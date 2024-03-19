@@ -104,7 +104,11 @@ body {
   position: relative;
   width: 100%;
   padding: 30px 20px;
+<<<<<<< HEAD
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+=======
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+>>>>>>> cb96f4d (first commit)
   border-radius: 10px;
 }
 #card img {
@@ -163,9 +167,12 @@ body {
   border: none;
   border-radius: 5px;
 }
+<<<<<<< HEAD
 #btn:hover{
   background-color: #8dc641;
   transition: 0.8s;
   color: black;
 }
+=======
+>>>>>>> cb96f4d (first commit)
 </style>

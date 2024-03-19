@@ -122,6 +122,7 @@ onMounted(fetchPokemonData);
 
     <div class="buttons">
       <div class="btn-top-bot">
+<<<<<<< HEAD
         <button class="btn-top" @click="onNextUp" @keyup.up="onBigUp">  </button>
         <button class="btn-bot" @click="onPreviousDown" @keyup.down="onBigDown"> </button>
       </div>
@@ -129,6 +130,15 @@ onMounted(fetchPokemonData);
       <div class="btn-left-right">
         <button class="btn-left" @click="onPrevious" @keyup.left="onDown"> </button>
         <button class="btn-right" @click="onNext" @keyup.right="onUp">  </button>
+=======
+        <button class="btn-top" @click="onNextUp" @keyup.up="onUp">  </button>
+        <button class="btn-bot" @click="onPreviousDown" @keyup.up="onDown"  > </button>
+      </div>
+
+      <div class="btn-left-right">
+        <button class="btn-left" @click="onPrevious" @keyup.up="onBigDown"> </button>
+          <button class="btn-right" @click="onNext" @keyup.up="onBigUp">  </button>
+>>>>>>> cb96f4d (first commit)
       </div>
 
       <div class="submit">
@@ -161,6 +171,10 @@ img {
 .pokedex-name {
   position: absolute;
   top: 364px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb96f4d (first commit)
   display: flex;
 }
 
@@ -281,7 +295,11 @@ img {
 
 .btn-left-right {
   position: absolute;
+<<<<<<< HEAD
   inset: 780px 200px 140px 773px;
+=======
+  inset: 780px 200px 50px 773px;
+>>>>>>> cb96f4d (first commit)
   display: flex;
   justify-content: space-between;
   width: 90px;
