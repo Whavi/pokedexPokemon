@@ -122,7 +122,6 @@ onMounted(fetchPokemonData);
 
     <div class="buttons">
       <div class="btn-top-bot">
-
         <button class="btn-top" @click="onNextUp" @keyup.up="onBigUp">  </button>
         <button class="btn-bot" @click="onPreviousDown" @keyup.down="onBigDown"> </button>
       </div>
@@ -130,14 +129,6 @@ onMounted(fetchPokemonData);
       <div class="btn-left-right">
         <button class="btn-left" @click="onPrevious" @keyup.left="onDown"> </button>
         <button class="btn-right" @click="onNext" @keyup.right="onUp">  </button>
-
-        <button class="btn-top" @click="onNextUp" @keyup.up="onUp">  </button>
-        <button class="btn-bot" @click="onPreviousDown" @keyup.up="onDown"  > </button>
-      </div>
-
-      <div class="btn-left-right">
-        <button class="btn-left" @click="onPrevious" @keyup.up="onBigDown"> </button>
-          <button class="btn-right" @click="onNext" @keyup.up="onBigUp">  </button>
       </div>
 
       <div class="submit">
