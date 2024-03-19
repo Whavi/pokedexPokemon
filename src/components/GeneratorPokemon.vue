@@ -32,6 +32,7 @@ const pokemon = ref({
   statSpeed: 0,
 });
 
+
 const getPokeData = () => {
   let id = Math.floor(Math.random() * 150) + 1;
   const finalUrl = url + id;
